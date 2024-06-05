@@ -1,47 +1,55 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { reactive } from 'vue';
+import Header from './components/Header.vue';
+import Form from './components/Form.vue';
+import Footer from './components/Footer.vue';
+
+const estado = reactive({
+  operacao: ''
+})
+
+const soma = () => {
+  return numberA + numberB
+}
+
+const subtracao = () => {
+  return numberA - numberB 
+}
+
+const multiplicacao = () => {
+  return numberA * numberB 
+}
+
+const divisao = () => {
+  return numberA / numberB
+}
+
+const operacaoSelecionada = () => {
+  const { operacao } = estado;
+
+  switch(operacao){
+    case 'soma':
+      return soma();
+    case 'subtracao':
+      return subtracao();
+    case 'multiplicacao':
+      return multiplicacao();
+    case 'divisao':
+      return divisao();   
+  }
+}
+console.log(operacaoSelecionada)
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <Header />
+  <Form :operacao-selecionada="evento => estado.operacao = evento.target.value" />
+  <Footer />
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+<style>
+  body {
+    background: linear-gradient(rgba(0,0,0, .85), rgba(0,0,0, .85)), url('/img/bgimage.png');
+    background-size: auto;
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
