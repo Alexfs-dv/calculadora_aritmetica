@@ -1,24 +1,47 @@
 <script setup>
+    import { ref, computed } from 'vue';
+
     const props = defineProps(['operacaoSelecionada','numberA','numberB',])
+    const numberA = ref(props.numberA);
+    const numberB = ref(props.numberB);
+    const operacaoSelecionada = ref(props.operacaoSelecionada);
+
+    const resultado = computed(() => {
+        const a = parseFloat(numberA.value);
+        const b = parseFloat(numberB.value);
+
+        switch(operacaoSelecionada.value){
+            case 'soma':
+                return a + b;
+            case 'subtracao':
+                return a - b;
+            case 'multiplicacao':
+                return a * b;
+            case 'divisao':
+                return b !== 0 ? a/b : 'Erro';
+            default:
+                return 0;
+        }
+    })
 </script>
 
 <template>
     <form class="container justify-content-center">
         <div class="row">
-            <input :value="props.numberA" type="number" placeholder="Digite o primeiro número">
+            <input v-model="numberA" type="number" placeholder="Digite o primeiro número">
         </div>
         <div class="row">
-            <input :value="props.numberB" type="number" placeholder="Digite o segundo número">
+            <input v-model="numberB" type="number" placeholder="Digite o segundo número">
         </div>
         <div class="row">
-            <output name="resultado" for="number-a number-b"></output>
+            <output name="resultado" for="number-a number-b">{{ resultado }}</output>
         </div>
         <div class="row mt-3 fw-bold">
             <div class="col-6">
                 <label for="operacao" class="p-2">Escolha a operação:</label>
             </div>
             <div class="col-6">
-                <select @change="evento => props.operacaoSelecionada" name="operacao" class="form-control">
+                <select v-model="operacaoSelecionada" name="operacao" class="form-control">
                     <option value="soma">Soma</option>
                     <option value="subtracao">Subtração</option>
                     <option value="multiplicacao">Multiplicação</option>
